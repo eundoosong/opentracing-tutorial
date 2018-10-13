@@ -1,8 +1,8 @@
 package lesson02.solution;
 
 import com.google.common.collect.ImmutableMap;
-import com.uber.jaeger.Tracer;
 
+import io.opentracing.Tracer;
 import io.opentracing.Scope;
 import lib.Tracing;
 
@@ -45,6 +45,5 @@ public class HelloActive {
         String helloTo = args[0];
         Tracer tracer = Tracing.init("hello-world");
         new HelloActive(tracer).sayHello(helloTo);
-        tracer.close();
     }
 }

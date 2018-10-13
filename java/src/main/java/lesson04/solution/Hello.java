@@ -3,8 +3,8 @@ package lesson04.solution;
 import java.io.IOException;
 
 import com.google.common.collect.ImmutableMap;
-import com.uber.jaeger.Tracer;
 
+import io.opentracing.Tracer;
 import io.opentracing.Scope;
 import io.opentracing.propagation.Format;
 import io.opentracing.tag.Tags;
@@ -79,6 +79,5 @@ public class Hello {
         String greeting = args[1];
         Tracer tracer = Tracing.init("hello-world");
         new Hello(tracer).sayHello(helloTo, greeting);
-        tracer.close();
     }
 }

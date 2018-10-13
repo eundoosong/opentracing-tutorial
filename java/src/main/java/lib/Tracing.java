@@ -6,10 +6,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.uber.jaeger.Configuration;
-import com.uber.jaeger.Configuration.ReporterConfiguration;
-import com.uber.jaeger.Configuration.SamplerConfiguration;
-import com.uber.jaeger.samplers.ConstSampler;
+import io.jaegertracing.Configuration;
+import io.jaegertracing.Configuration.ReporterConfiguration;
+import io.jaegertracing.Configuration.SamplerConfiguration;
 
 import io.opentracing.Scope;
 import io.opentracing.SpanContext;
@@ -24,9 +23,9 @@ public final class Tracing {
     private Tracing() {
     }
 
-    public static com.uber.jaeger.Tracer init(String service) {
+    public static io.opentracing.Tracer init(String service) {
         SamplerConfiguration samplerConfig = SamplerConfiguration.fromEnv()
-                .withType(ConstSampler.TYPE)
+                .withType("const")
                 .withParam(1);
 
         ReporterConfiguration reporterConfig = ReporterConfiguration.fromEnv()
@@ -36,7 +35,7 @@ public final class Tracing {
                 .withSampler(samplerConfig)
                 .withReporter(reporterConfig);
 
-        return (com.uber.jaeger.Tracer) config.getTracer();
+        return config.getTracer();
     }
 
     public static Scope startServerSpan(Tracer tracer, javax.ws.rs.core.HttpHeaders httpHeaders, String operationName) {

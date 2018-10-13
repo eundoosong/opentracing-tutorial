@@ -1,8 +1,8 @@
 package lesson01.solution;
 
 import com.google.common.collect.ImmutableMap;
-import com.uber.jaeger.Tracer;
 
+import io.opentracing.Tracer;
 import io.opentracing.Span;
 import lib.Tracing;
 
@@ -15,7 +15,7 @@ public class Hello {
     }
 
     private void sayHello(String helloTo) {
-        Span span = tracer.buildSpan("say-hello").startManual();
+        Span span = tracer.buildSpan("say-hello").start();
         span.setTag("hello-to", helloTo);
         
         String helloStr = String.format("Hello, %s!", helloTo);
@@ -34,6 +34,5 @@ public class Hello {
         String helloTo = args[0];
         Tracer tracer = Tracing.init("hello-world");
         new Hello(tracer).sayHello(helloTo);
-        tracer.close();
     }
 }
